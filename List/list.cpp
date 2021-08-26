@@ -1,4 +1,5 @@
 #include<iostream>
+#include<stdexcept>
 using namespace std;
 
 // node class
@@ -9,6 +10,12 @@ public:
     // constructor
     Node(){};   
     Node(int value);
+
+    friend ostream& operator<<(ostream &out, Node& obj){
+
+        out << obj.data;
+        return out;
+    }
 };
 
 // Node constructor
@@ -31,6 +38,7 @@ public:
     // FUNCTIONS
     void print();
     void append(int element);
+    void insert(int index, int element);
     void clear();
     int len();
     int count(int element);
@@ -39,6 +47,27 @@ public:
     void pop();
     void remove(int element);
     void reverse();
+    void sort();
+
+    //operator overload
+    Node& operator[](int index);
+
+    friend ostream& operator<<(ostream& out, List& obj){
+        if(obj.start==NULL){
+            out<<"[]"<<endl;
+            return out;
+        }
+        Node* temp = obj.start;
+        out <<"[";
+        while(temp->next){
+            out<<*temp<<", ";
+            temp = temp->next;
+        }        
+        out<<*temp<<"]"<<endl;
+        return out;
+    
+    }
+
 };
 
 
@@ -87,6 +116,34 @@ void List::append(int element){
 
     end->next = newnode;
     end = newnode;
+}
+
+// insert function
+void List::insert(int index, int element){
+        
+    if(index == 0){
+        Node* newnode = new Node(element);
+        newnode->next = start;
+        start = newnode;
+    }
+    else if(index<(this->len())){
+        
+        Node* newnode = new Node(element);
+        Node* temp = start;
+        int i=0;
+        while(i<index-1){
+            temp = temp->next;
+            i++;
+        }
+        newnode->next = temp->next;
+        temp->next = newnode;
+
+    }
+    // 0 1 2 3 4 5 6
+    // 1 2 3 4 5
+    else{
+        this->append(element);
+    }
 }
 
 // len function
@@ -152,7 +209,8 @@ void List::clear(){
 //Index function
 int List::index(int key){
 
-    if(start==NULL)return -1;
+    if(start==NULL)
+    throw std::length_error("List is empty");
 
     Node* temp = start;
     int index = 0;
@@ -163,7 +221,8 @@ int List::index(int key){
         index++;
         temp = temp->next;
     }
-    return -1;
+    throw std::invalid_argument("Invalid Index");
+    
 }
 
 //Count function
@@ -210,8 +269,55 @@ void List::reverse(){
     }
 }
 
+//sort function
+void List::sort(){
+    if(start == NULL) return;
+
+    Node *temp;
+
+    int n = len(), tmp;
+
+    for (int i = 0; i < n - 1; i++)
+    {
+        temp = start;
+        for (int j = 0; j < n - i - 1; j++)
+        {
+            if (temp->data > temp->next->data)
+            {
+                tmp = temp->data;
+                temp->data = temp->next->data;
+                temp->next->data = tmp;
+            }
+            temp = temp->next;
+        }
+    }
+}
+
+Node& List::operator[](int index){
+    int length = this->len();
+    if(index>=length){
+        throw std::out_of_range("invalid index");
+    }
+    Node* temp = start;
+    for(int i=0;i<index;i++){
+        temp =temp->next;
+    }
+    return *temp;
+}
+
 
 int main()
 {
-    
+    int a[] = {1,2,3,4,5};
+    List L1(a,5);
+    L1.insert(100,12);
+    L1.print();
+    try{
+        cout<<L1.index(-1);
+    }
+    catch(const std::exception& e){
+        std::cerr<<e.what()<<"\n";
+
+    }
+    cout<<L1;
 }
