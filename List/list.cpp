@@ -24,7 +24,6 @@ Node::Node(int value){
     next = NULL;
 }
 
-
 // list class
 class List{
 private: 
@@ -51,6 +50,7 @@ public:
 
     //operator overload
     Node& operator[](int index);
+    List& operator+(List& l2);
 
     friend ostream& operator<<(ostream& out, List& obj){
         if(obj.start==NULL){
@@ -293,6 +293,7 @@ void List::sort(){
     }
 }
 
+//[]operator overloading 
 Node& List::operator[](int index){
     int length = this->len();
     if(index>=length){
@@ -303,6 +304,22 @@ Node& List::operator[](int index){
         temp =temp->next;
     }
     return *temp;
+}
+
+//+operator overloading
+List& List::operator+(List& l2){
+    List L3;
+    Node* temp1 = this->start;
+    while(temp1){
+        L3.append(temp1->data);
+        temp1 = temp1->next;
+    }
+    temp1 = l2.start;
+    while(temp1){
+        L3.append(temp1->data);
+        temp1 = temp1->next;
+    }
+    return L3;
 }
 
 
@@ -317,7 +334,7 @@ int main()
     }
     catch(const std::exception& e){
         std::cerr<<e.what()<<"\n";
-
     }
+    cout<<L1+L1;
     cout<<L1;
 }
