@@ -308,18 +308,18 @@ Node& List::operator[](int index){
 
 //+operator overloading
 List& List::operator+(List& l2){
-    List L3;
+    List *L3 = new List();
     Node* temp1 = this->start;
     while(temp1){
-        L3.append(temp1->data);
+        (*L3).append(temp1->data);
         temp1 = temp1->next;
     }
     temp1 = l2.start;
     while(temp1){
-        L3.append(temp1->data);
+        (*L3).append(temp1->data);
         temp1 = temp1->next;
     }
-    return L3;
+    return *L3;
 }
 
 
