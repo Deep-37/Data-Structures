@@ -308,7 +308,7 @@ int main()
     int a[] = {1,2,3,4,5};
     List L1(a,5);
     L1.insert(100,12);
-    L1.print();
+    cout<<L1;
     try{
         cout<<L1.index(-1);
     }
