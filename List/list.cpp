@@ -35,6 +35,7 @@ public:
     List(int* elements, int n);
 
     // FUNCTIONS
+    void print();
     void append(int element);
     void insert(int index, int element);
     void clear();
@@ -92,6 +93,17 @@ List::List(int* elements, int n){
             end = newnode;
         }
     }
+}
+
+//print Function
+void List::print(){
+    Node* temp = start;
+    while(temp->next)
+    {
+        cout<<temp->data<<"->";
+        temp = temp->next;
+    }
+    cout<<temp->data<<endl;
 }
 
 // Append Functiion
@@ -299,6 +311,16 @@ List& List::operator+(List& l2){
     List *L3 = new List();
     (*L3).extend(*this);
     (*L3).extend(l2);
+    // Node* temp1 = this->start;
+    // while(temp1){
+    //     (*L3).append(temp1->data);
+    //     temp1 = temp1->next;
+    // }
+    // temp1 = l2.start;
+    // while(temp1){
+    //     (*L3).append(temp1->data);
+    //     temp1 = temp1->next;
+    // }
     return *L3;
 }
 
@@ -308,7 +330,7 @@ int main()
     int a[] = {1,2,3,4,5};
     List L1(a,5);
     L1.insert(100,12);
-    cout<<L1;
+    L1.print();
     try{
         cout<<L1.index(-1);
     }
