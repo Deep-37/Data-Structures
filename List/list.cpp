@@ -50,6 +50,7 @@ public:
     //operator overload
     Node& operator[](int index);
     List& operator+(List& l2);
+    List& operator+(int element);
     List& operator-(int element);
     List& operator*(int count);
 
@@ -309,6 +310,12 @@ List& List::operator+(List& l2){
     return *L3;
 }
 
+//+operator overloading
+List& List::operator+(int element){
+    this->append(element);
+    return *this;
+}
+
 //-operator overloading
 List& List::operator-(int element){
     this->remove(element);
@@ -338,7 +345,8 @@ int main()
     catch(const std::exception& e){
         std::cerr<<e.what()<<"\n";
     }
+    cout<< L1+234;
     cout<<L1+L1;
-    cout<<L1-1;
+    cout<<L1-234;
     cout<<L1*3;
 }
