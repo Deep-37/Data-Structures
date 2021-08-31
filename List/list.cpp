@@ -326,7 +326,7 @@ List& List::operator-(int element){
 List& List::operator*(int count){
     List *L3 = new List();
     (*L3).extend(*this);
-    while(count){
+    while(count-1){
         (*L3).extend(*this);
         count--;
     }
@@ -340,7 +340,7 @@ int main()
     L1.insert(100,12);
     cout<<L1;
     try{
-        cout<<L1.index(-1);
+        cout<<L1.index(1)<<endl;
     }
     catch(const std::exception& e){
         std::cerr<<e.what()<<"\n";
