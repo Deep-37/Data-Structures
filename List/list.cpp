@@ -50,6 +50,8 @@ public:
     //operator overload
     Node& operator[](int index);
     List& operator+(List& l2);
+    List& operator-(int element);
+    List& operator*(int count);
 
     friend ostream& operator<<(ostream& out, List& obj){
         if(obj.start==NULL){
@@ -167,6 +169,11 @@ void List::pop(){
 //remove function
 void List::remove(int element){
     Node* t1 = start;
+    if(start->data == element){
+        start = start->next;
+        delete t1;
+        return;
+    }
     Node* t2 = start;
     while(1){
         if(t1->next->data == element){
@@ -302,6 +309,22 @@ List& List::operator+(List& l2){
     return *L3;
 }
 
+//-operator overloading
+List& List::operator-(int element){
+    this->remove(element);
+    return *this;
+}
+
+//-operator overloading
+List& List::operator*(int count){
+    List *L3 = new List();
+    (*L3).extend(*this);
+    while(count){
+        (*L3).extend(*this);
+        count--;
+    }
+    return *L3;
+}
 
 int main()
 {
@@ -316,5 +339,6 @@ int main()
         std::cerr<<e.what()<<"\n";
     }
     cout<<L1+L1;
-    cout<<L1;
+    cout<<L1-1;
+    cout<<L1*3;
 }
